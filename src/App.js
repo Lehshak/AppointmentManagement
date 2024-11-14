@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import AppointmentForm from "./Components/AppointmentForm";
+import AppointmentList from "./Components/AppointmentList";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [appointments, setAppointments] = useState([]);
+
+    const addAppointment = (appointment) => {
+        setAppointments([...appointments, appointment]);
+    };
+
+    const deleteAppointment = (index) => {
+        const deletedAppointments = [...appointments];
+        deletedAppointments.splice(index, 1);
+        setAppointments(deletedAppointments);
+    };
+
+    const editAppointment = (index, editedName, editedDate) => {
+        const updatedAppointments = [...appointments];
+        updatedAppointments[index] = {
+            name: editedName,
+            date: editedDate,
+        };
+        setAppointments(updatedAppointments);
+    };
+
+    const clearAppointments = () => {
+        setAppointments([]);
+    };
+
+    return (
+        <div>
+            <h1>Appointment Management System</h1>
+
+            <h2>Adding different keywords to the description will change the appointment color.
+            </h2>
+            <h2>Try adding words like urgent, soon or now, and see what colour the appointment takes.</h2>
+
+            <AppointmentForm addAppointment={addAppointment} />
+            <AppointmentList
+                appointments={appointments}
+                deleteAppointment={deleteAppointment}
+                clearAppointments={clearAppointments}
+                editAppointment={editAppointment}
+            />
+        </div>
+    );
+};
 
 export default App;
